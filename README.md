@@ -4,7 +4,7 @@ This library contains `Serially.scala` which allows to run tasks serially
 The behavior is somehow similar to what actors propose, however it provides typesafety.
 Also it is easy to write tests using `Serially.now` to avoid unnecessary concurrency.
 
-## Serially.scala example 
+## `Serially` example 
 
 This example explains how we can ensure that there are no concurrent updates to `var state`
 
@@ -27,7 +27,7 @@ val stateBefore: Future[Int] = serially {
 } 
 ```
 
-## StateVar.scala example
+## `StateVar` example
 
 Basically the same as on previous example with less code
 
