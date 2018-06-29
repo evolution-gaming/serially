@@ -48,7 +48,7 @@ object StateVar {
 
   def apply[T](initial: T, serially: Serially): StateVar[T] = {
 
-    var state = initial
+    @volatile var state = initial
 
     new StateVar[T] {
 

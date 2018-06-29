@@ -53,7 +53,7 @@ object Serially {
 
       def apply[T](f: => T): Future[T] = {
         running {
-          val promise = Promise[T]
+          val promise = Promise[T]()
           val ff = () => {
             val result = Try(f)
             promise.complete(result)
