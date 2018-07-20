@@ -1,6 +1,7 @@
 package com.evolutiongaming.concurrent.serially
 
 import akka.actor.{Actor, ActorRef, ActorRefFactory, Props}
+import com.evolutiongaming.concurrent.FutureHelper._
 
 import scala.concurrent.{Future, Promise}
 import scala.util.Try
@@ -16,9 +17,6 @@ trait Serially {
 object Serially {
 
   private lazy val StoppedFailure = Future.failed(Stopped)
-
-  private lazy val FutureUnit = Future.successful(())
-
 
   def apply(name: Option[String] = None)(implicit factory: ActorRefFactory): Serially = {
 
@@ -84,7 +82,7 @@ object Serially {
 
     def apply[T](f: => T): Future[T] = Future.fromTry(Try(f))
 
-    def stop() = FutureUnit
+    def stop() = Future.unit
   }
 
 
