@@ -4,34 +4,34 @@ import akka.actor.ActorRefFactory
 
 import scala.concurrent.Future
 
-trait StateVar[T] {
+trait StateVar[S] {
 
-  def value(): T
+  def value(): S
 
-  def apply[TT](f: T => (T, TT)): Future[TT]
+  def apply[SS](f: S => (S, SS)): Future[SS]
 
   /**
     * @return previous value
     */
-  def set(value: T): Future[T] = getAndUpdate(_ => value)
+  final def set(value: S): Future[S] = getAndUpdate(_ => value)
 
-  def update(f: T => T): Future[T] = updateAndGet(f)
+  final def update(f: S => S): Future[S] = updateAndGet(f)
 
-  def updateAndGet(f: T => T): Future[T] = {
+  final def updateAndGet(f: S => S): Future[S] = {
     apply { value =>
       val valueNew = f(value)
       (valueNew, valueNew)
     }
   }
 
-  def getAndUpdate(f: T => T): Future[T] = {
+  final def getAndUpdate(f: S => S): Future[S] = {
     apply { value =>
       val valueNew = f(value)
       (valueNew, value)
     }
   }
 
-  def withValue(f: T => Unit): Future[T] = {
+  final def withValue(f: S => Unit): Future[S] = {
     update { value =>
       f(value)
       value
@@ -41,28 +41,28 @@ trait StateVar[T] {
 
 object StateVar {
 
-  def apply[T](initial: T)(implicit factory: ActorRefFactory): StateVar[T] = {
+  def apply[S](state: S)(implicit factory: ActorRefFactory): StateVar[S] = {
     val serially = Serially()
-    apply(initial, serially)
+    apply(state, serially)
   }
 
-  def apply[T](initial: T, serially: Serially): StateVar[T] = {
+  def apply[S](state: S, serially: Serially): StateVar[S] = {
 
-    @volatile var state = initial
+    @volatile var s = state
 
-    new StateVar[T] {
+    new StateVar[S] {
 
-      def value() = state
+      def value() = s
 
-      def apply[TT](f: T => (T, TT)): Future[TT] = {
+      def apply[SS](f: S => (S, SS)): Future[SS] = {
         serially {
-          val (stateNew, result) = f(state)
-          state = stateNew
+          val (ss, result) = f(s)
+          s = ss
           result
         }
       }
 
-      override def toString = s"StateVar($state)"
+      override def toString = s"StateVar($s)"
     }
   }
 }
