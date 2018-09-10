@@ -4,7 +4,7 @@ organization := "com.evolutiongaming"
 
 homepage := Some(new URL("http://github.com/evolution-gaming/serially"))
 
-startYear := Some(2017)
+startYear := Some(2018)
 
 organizationName := "Evolution Gaming"
 
@@ -34,9 +34,9 @@ scalacOptions in (Compile,doc) ++= Seq("-groups", "-implicits", "-no-link-warnin
 resolvers += Resolver.bintrayRepo("evolutiongaming", "maven")
 
 libraryDependencies ++= Seq(
-  "com.evolutiongaming" %% "future-helper" % "1.0.2",
-  "com.typesafe.akka" %% "akka-actor" % "2.5.14",
-  "com.typesafe.akka" %% "akka-testkit" % "2.5.14" % Test,
+  "com.evolutiongaming" %% "future-helper" % "1.0.3",
+  "com.typesafe.akka" %% "akka-actor" % "2.5.16",
+  "com.typesafe.akka" %% "akka-testkit" % "2.5.16" % Test,
   "org.scalatest" %% "scalatest" % "3.0.5" % Test)
 
 licenses := Seq(("MIT", url("https://opensource.org/licenses/MIT")))

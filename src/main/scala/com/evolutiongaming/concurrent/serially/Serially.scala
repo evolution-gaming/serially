@@ -1,5 +1,7 @@
 package com.evolutiongaming.concurrent.serially
 
+import java.util.concurrent.atomic.AtomicBoolean
+
 import akka.actor.{Actor, ActorRef, ActorRefFactory, Props}
 import com.evolutiongaming.concurrent.FutureHelper._
 
@@ -41,10 +43,10 @@ object Serially {
       case Some(name) => factory.actorOf(props, name)
     }
 
-    var stopped = false
+    val stopped = new AtomicBoolean(false)
 
     def running[T](f: => Future[T]) = {
-      if (stopped) StoppedFailure else f
+      if (stopped.get()) StoppedFailure else f
     }
 
     new Serially {
@@ -66,7 +68,7 @@ object Serially {
         running {
           stopped.synchronized {
             running {
-              stopped = true
+              stopped.set(true)
               val promise = Promise[Unit]()
               ref.tell(StopPrepare(promise), ActorRef.noSender)
               promise.future
