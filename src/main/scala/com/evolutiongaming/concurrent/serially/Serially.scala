@@ -18,21 +18,19 @@ trait Serially {
 
 object Serially {
 
-  private lazy val StoppedFailure = Future.failed(Stopped)
+  private val StoppedFailure = Future.failed(Stopped)
 
   def apply(name: Option[String] = None)(implicit factory: ActorRefFactory): Serially = {
 
-    case class Msg(f: () => Unit)
+    case class Func(f: () => Unit)
     case class StopPrepare(promise: Promise[Unit])
     case class StopCommit(promise: Promise[Unit])
 
     def actor() = new Actor {
       def receive: Receive = {
-        case Msg(f)               => f()
+        case Func(f)              => f()
         case StopPrepare(promise) => self.tell(StopCommit(promise), ActorRef.noSender)
-        case StopCommit(promise)  =>
-          promise.success(())
-          context.stop(self);
+        case StopCommit(promise)  => promise.success(()); context.stop(self);
       }
     }
 
@@ -59,20 +57,19 @@ object Serially {
             promise.complete(result)
             ()
           }
-          ref.tell(Msg(ff), ActorRef.noSender)
+          ref.tell(Func(ff), ActorRef.noSender)
           promise.future
         }
       }
 
       def stop() = {
         running {
-          stopped.synchronized {
-            running {
-              stopped.set(true)
-              val promise = Promise[Unit]()
-              ref.tell(StopPrepare(promise), ActorRef.noSender)
-              promise.future
-            }
+          if (stopped.compareAndSet(false, true)) {
+            val promise = Promise[Unit]()
+            ref.tell(StopPrepare(promise), ActorRef.noSender)
+            promise.future
+          } else {
+            StoppedFailure
           }
         }
       }
