@@ -3,7 +3,6 @@ package com.evolutiongaming.concurrent.serially
 import java.util.concurrent.atomic.AtomicBoolean
 
 import akka.actor.{Actor, ActorRef, ActorRefFactory, Props}
-import com.evolutiongaming.concurrent.FutureHelper._
 
 import scala.concurrent.{Future, Promise}
 import scala.util.Try

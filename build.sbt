@@ -12,32 +12,19 @@ organizationHomepage := Some(url("http://evolutiongaming.com"))
 
 bintrayOrganization := Some("evolutiongaming")
 
-scalaVersion := crossScalaVersions.value.last
+scalaVersion := crossScalaVersions.value.head
 
-crossScalaVersions := Seq("2.11.12", "2.12.8")
-
-scalacOptions ++= Seq(
-  "-encoding", "UTF-8",
-  "-feature",
-  "-unchecked",
-  "-deprecation",
-//  "-Xfatal-warnings",
-  "-Xlint",
-  "-Yno-adapted-args",
-  "-Ywarn-dead-code",
-  "-Ywarn-numeric-widen",
-  "-Xfuture"
-)
+crossScalaVersions := Seq("2.13.0", "2.12.9")
 
 scalacOptions in (Compile,doc) ++= Seq("-groups", "-implicits", "-no-link-warnings")
 
 resolvers += Resolver.bintrayRepo("evolutiongaming", "maven")
 
 libraryDependencies ++= Seq(
-  "com.evolutiongaming" %% "future-helper" % "1.0.3",
-  "com.typesafe.akka" %% "akka-actor" % "2.5.18",
-  "com.typesafe.akka" %% "akka-testkit" % "2.5.18" % Test,
-  "org.scalatest" %% "scalatest" % "3.0.5" % Test)
+  "com.evolutiongaming" %% "future-helper" % "1.0.6",
+  "com.typesafe.akka"   %% "akka-actor"    % "2.5.25",
+  "com.typesafe.akka"   %% "akka-testkit"  % "2.5.25" % Test,
+  "org.scalatest"       %% "scalatest"     % "3.0.8"  % Test)
 
 licenses := Seq(("MIT", url("https://opensource.org/licenses/MIT")))
 
