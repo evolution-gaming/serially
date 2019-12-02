@@ -1,13 +1,14 @@
 package com.evolutiongaming.concurrent.serially
 
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.{Matchers, WordSpec}
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Promise, TimeoutException}
 import scala.util.control.NoStackTrace
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class SeriallySpec extends WordSpec with ActorSpec with Matchers with ScalaFutures {
+class SeriallySpec extends AnyWordSpec with ActorSpec with Matchers with ScalaFutures {
 
   "Serially" should {
 

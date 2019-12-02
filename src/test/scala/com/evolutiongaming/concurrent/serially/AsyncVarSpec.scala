@@ -1,10 +1,11 @@
 package com.evolutiongaming.concurrent.serially
 
-import org.scalatest.{Matchers, WordSpec}
 
 import scala.util.Success
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class AsyncVarSpec extends WordSpec with Matchers {
+class AsyncVarSpec extends AnyWordSpec with Matchers {
 
   "AsyncVar" should {
 
