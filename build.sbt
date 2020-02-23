@@ -24,7 +24,7 @@ libraryDependencies ++= Seq(
   "com.evolutiongaming" %% "future-helper" % "1.0.6",
   "com.typesafe.akka"   %% "akka-actor"    % "2.6.2",
   "com.typesafe.akka"   %% "akka-testkit"  % "2.6.2" % Test,
-  "org.scalatest"       %% "scalatest"     % "3.1.0"  % Test)
+  "org.scalatest"       %% "scalatest"     % "3.1.1"  % Test)
 
 licenses := Seq(("MIT", url("https://opensource.org/licenses/MIT")))
 
