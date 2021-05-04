@@ -6,24 +6,22 @@ homepage := Some(new URL("http://github.com/evolution-gaming/serially"))
 
 startYear := Some(2018)
 
-organizationName := "Evolution Gaming"
+organizationName := "Evolution"
 
-organizationHomepage := Some(url("http://evolutiongaming.com"))
-
-bintrayOrganization := Some("evolutiongaming")
+organizationHomepage := Some(url("http://evolution.com"))
 
 scalaVersion := crossScalaVersions.value.head
 
-crossScalaVersions := Seq("2.13.2", "2.12.11")
+crossScalaVersions := Seq("2.13.5", "2.12.13")
 
-scalacOptions in (Compile,doc) ++= Seq("-groups", "-implicits", "-no-link-warnings")
+Compile / doc / scalacOptions ++= Seq("-groups", "-implicits", "-no-link-warnings")
 
-resolvers += Resolver.bintrayRepo("evolutiongaming", "maven")
+publishTo := Some(Resolver.evolutionReleases)
 
 libraryDependencies ++= Seq(
   "com.evolutiongaming" %% "future-helper" % "1.0.6",
-  "com.typesafe.akka"   %% "akka-actor"    % "2.6.14",
-  "com.typesafe.akka"   %% "akka-testkit"  % "2.6.14" % Test,
+  "com.typesafe.akka"   %% "akka-actor"    % "2.6.8",
+  "com.typesafe.akka"   %% "akka-testkit"  % "2.6.8" % Test,
   "org.scalatest"       %% "scalatest"     % "3.2.3"  % Test)
 
 licenses := Seq(("MIT", url("https://opensource.org/licenses/MIT")))
