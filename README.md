@@ -1,4 +1,9 @@
-# Serially [![Build Status](https://travis-ci.org/evolution-gaming/serially.svg)](https://travis-ci.org/evolution-gaming/serially) [![Coverage Status](https://coveralls.io/repos/evolution-gaming/serially/badge.svg)](https://coveralls.io/r/evolution-gaming/serially) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9ac9217e2baf498ebfe996e163d849b1)](https://www.codacy.com/app/evolution-gaming/serially?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=evolution-gaming/serially&amp;utm_campaign=Badge_Grade) [ ![version](https://api.bintray.com/packages/evolutiongaming/maven/serially/images/download.svg) ](https://bintray.com/evolutiongaming/maven/serially/_latestVersion) [![License: MIT](https://img.shields.io/badge/License-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT)
+# Serially
+[![Build Status](https://github.com/evolution-gaming/serially/workflows/CI/badge.svg)](https://github.com/evolution-gaming/serially/actions?query=workflow%3ACI)
+[![Coverage Status](https://coveralls.io/repos/github/evolution-gaming/serially/badge.svg?branch=master)](https://coveralls.io/github/evolution-gaming/serially?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9ac9217e2baf498ebfe996e163d849b1)](https://www.codacy.com/app/evolution-gaming/serially?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=evolution-gaming/serially&amp;utm_campaign=Badge_Grade)
+[![Version](https://img.shields.io/badge/version-click-blue)](https://evolution.jfrog.io/artifactory/api/search/latestVersion?g=com.evolutiongaming&a=serially_2.13&repos=public)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT)
 
 This library contains `Serially.scala` which allows to run tasks serially
 The behavior is somehow similar to what actors propose, however it provides typesafety.
@@ -45,7 +50,7 @@ val result: Future[String] = state { before =>
 ## Setup
 
 ```scala
-resolvers += Resolver.bintrayRepo("evolutiongaming", "maven")
+addSbtPlugin("com.evolution" % "sbt-artifactory-plugin" % "0.0.2")
 
-libraryDependencies += "com.evolutiongaming" %% "serially" % "1.0"
+libraryDependencies += "com.evolutiongaming" %% "serially" % "1.0.6"
 ```
