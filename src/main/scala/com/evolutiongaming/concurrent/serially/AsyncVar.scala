@@ -15,7 +15,11 @@ trait AsyncVar[S] extends StateVar[S] {
 
 object AsyncVar {
 
-  def apply[S](state: S)(implicit factory: ActorRefFactory): AsyncVar[S] = {
+  def apply[S](
+    state: S,
+  )(implicit
+    factory: ActorRefFactory,
+  ): AsyncVar[S] = {
     val serially = SeriallyAsync()
     apply(state, serially)
   }

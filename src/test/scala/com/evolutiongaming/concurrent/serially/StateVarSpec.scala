@@ -1,9 +1,9 @@
 package com.evolutiongaming.concurrent.serially
 
-
-import scala.util.Success
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+
+import scala.util.Success
 
 class StateVarSpec extends AnyWordSpec with Matchers {
 

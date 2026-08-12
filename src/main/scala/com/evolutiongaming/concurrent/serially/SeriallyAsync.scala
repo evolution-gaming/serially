@@ -18,7 +18,11 @@ trait SeriallyAsync extends Serially {
 
 object SeriallyAsync {
 
-  def apply(name: Option[String] = None)(implicit factory: ActorRefFactory): SeriallyAsync = {
+  def apply(
+    name: Option[String] = None,
+  )(implicit
+    factory: ActorRefFactory,
+  ): SeriallyAsync = {
     val serially = Serially(name)
     apply(serially)
   }
@@ -44,7 +48,6 @@ object SeriallyAsync {
       def stop() = serially.stop()
     }
   }
-
 
   def now: SeriallyAsync = new SeriallyAsync {
 

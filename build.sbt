@@ -24,11 +24,13 @@ versionPolicyIntention := BinaryCompatible
 
 libraryDependencies ++= Seq(
   "com.evolutiongaming" %% "future-helper" % "1.0.7",
-  "com.typesafe.akka"   %% "akka-actor"    % "2.6.21", // scala-steward:off
-  "com.typesafe.akka"   %% "akka-testkit"  % "2.6.21" % Test, // scala-steward:off
-  "org.scalatest"       %% "scalatest"     % "3.2.20"  % Test)
+  "com.typesafe.akka" %% "akka-actor" % "2.6.21", // scala-steward:off
+  "com.typesafe.akka" %% "akka-testkit" % "2.6.21" % Test, // scala-steward:off
+  "org.scalatest" %% "scalatest" % "3.2.20" % Test,
+)
 
 licenses := Seq(("MIT", uri("https://opensource.org/licenses/MIT")))
 
-addCommandAlias("check", "all versionPolicyCheck Compile/doc")
+addCommandAlias("check", "+all scalafmtCheckRepo versionPolicyCheck Compile/doc")
+addCommandAlias("fmt", "+all scalafmtRepo")
 addCommandAlias("build", "+all compile testFull")

@@ -1,9 +1,8 @@
 package com.evolutiongaming.concurrent.serially
 
-import java.util.concurrent.atomic.AtomicBoolean
-
 import akka.actor.{Actor, ActorRef, ActorRefFactory, Props}
 
+import java.util.concurrent.atomic.AtomicBoolean
 import scala.concurrent.{Future, Promise}
 import scala.util.Try
 import scala.util.control.NoStackTrace
@@ -19,20 +18,24 @@ object Serially {
 
   private val StoppedFailure = Future.failed(Stopped)
 
-  def apply(name: Option[String] = None)(implicit factory: ActorRefFactory): Serially = {
+  def apply(
+    name: Option[String] = None,
+  )(implicit
+    factory: ActorRefFactory,
+  ): Serially = {
 
     def actor() = new Actor {
       def receive: Receive = {
-        case Func(f)              => f()
+        case Func(f) => f()
         case StopPrepare(promise) => self.tell(StopCommit(promise), ActorRef.noSender)
-        case StopCommit(promise)  => promise.success(()); context.stop(self);
+        case StopCommit(promise) => promise.success(()); context.stop(self);
       }
     }
 
     val props = Props(actor())
 
     val ref = name match {
-      case None       => factory.actorOf(props)
+      case None => factory.actorOf(props)
       case Some(name) => factory.actorOf(props, name)
     }
 
@@ -70,7 +73,6 @@ object Serially {
       }
     }
   }
-
 
   def now: Serially = new Serially {
 

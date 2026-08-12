@@ -11,8 +11,9 @@ trait StateVar[S] {
   def apply[SS](f: S => (S, SS)): Future[SS]
 
   /**
-    * @return previous value
-    */
+   * @return
+   *   previous value
+   */
   final def set(value: S): Future[S] = getAndUpdate(_ => value)
 
   final def update(f: S => S): Future[S] = updateAndGet(f)
@@ -41,7 +42,11 @@ trait StateVar[S] {
 
 object StateVar {
 
-  def apply[S](state: S)(implicit factory: ActorRefFactory): StateVar[S] = {
+  def apply[S](
+    state: S,
+  )(implicit
+    factory: ActorRefFactory,
+  ): StateVar[S] = {
     val serially = Serially()
     apply(state, serially)
   }
