@@ -2,13 +2,13 @@ name := "serially"
 
 organization := "com.evolutiongaming"
 
-homepage := Some(url("https://github.com/evolution-gaming/serially"))
+homepage := Some(uri("https://github.com/evolution-gaming/serially"))
 
 startYear := Some(2018)
 
 organizationName := "Evolution"
 
-organizationHomepage := Some(url("https://evolution.com"))
+organizationHomepage := Some(uri("https://evolution.com"))
 
 scalaVersion := crossScalaVersions.value.head
 
@@ -24,10 +24,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka"   %% "akka-testkit"  % "2.6.8" % Test,
   "org.scalatest"       %% "scalatest"     % "3.2.9"  % Test)
 
-licenses := Seq(("MIT", url("https://opensource.org/licenses/MIT")))
-
-releaseCrossBuild := true
+licenses := Seq(("MIT", uri("https://opensource.org/licenses/MIT")))
 
 //addCommandAlias("check", "all versionPolicyCheck Compile/doc")
 addCommandAlias("check", "show version")
-addCommandAlias("build", "+all compile test")
+addCommandAlias("build", "+all compile testFull")
