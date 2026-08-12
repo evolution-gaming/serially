@@ -8,3 +8,6 @@ on:
 jobs:
   test:
     uses: evolution-gaming/scala-github-actions/.github/workflows/ci.yml@dde27b9bd793d41d5aacf8fb74403c9de5da1146 # v6.3.0
+    # TODO remove after first release with Scala 3 support
+    with:
+      version_policy_check: false

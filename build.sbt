@@ -51,6 +51,13 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.20" % Test,
 )
 
+// TODO remove after first release with Scala 3 support
+versionPolicyIgnored ++= Seq(
+  // add libraries here that are known to be binary compatible, like:
+  "com.typesafe.akka" %% "akka-actor",
+  "org.scala-lang.modules" %% "scala-java8-compat",
+)
+
 licenses := Seq(("MIT", uri("https://opensource.org/licenses/MIT")))
 
 def crossSettings[T](scalaVersion: String, if3: T, if2: T): T = {
