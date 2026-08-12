@@ -21,10 +21,6 @@ object Serially {
 
   def apply(name: Option[String] = None)(implicit factory: ActorRefFactory): Serially = {
 
-    case class Func(f: () => Unit)
-    case class StopPrepare(promise: Promise[Unit])
-    case class StopCommit(promise: Promise[Unit])
-
     def actor() = new Actor {
       def receive: Receive = {
         case Func(f)              => f()
@@ -83,6 +79,9 @@ object Serially {
     def stop() = Future.unit
   }
 
+  private case class Func(f: () => Unit)
+  private case class StopPrepare(promise: Promise[Unit])
+  private case class StopCommit(promise: Promise[Unit])
 
   case object Stopped extends RuntimeException with NoStackTrace
 }
