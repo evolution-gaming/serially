@@ -1,3 +1,5 @@
+import sbtversionpolicy.Compatibility.BinaryCompatible
+
 name := "serially"
 
 organization := "com.evolutiongaming"
@@ -18,6 +20,8 @@ Compile / doc / scalacOptions ++= Seq("-groups", "-implicits", "-no-link-warning
 
 publishTo := Some(Resolver.evolutionReleases)
 
+versionPolicyIntention := BinaryCompatible
+
 libraryDependencies ++= Seq(
   "com.evolutiongaming" %% "future-helper" % "1.0.6",
   "com.typesafe.akka"   %% "akka-actor"    % "2.6.8",
@@ -26,6 +30,5 @@ libraryDependencies ++= Seq(
 
 licenses := Seq(("MIT", uri("https://opensource.org/licenses/MIT")))
 
-//addCommandAlias("check", "all versionPolicyCheck Compile/doc")
-addCommandAlias("check", "show version")
+addCommandAlias("check", "all versionPolicyCheck Compile/doc")
 addCommandAlias("build", "+all compile testFull")
