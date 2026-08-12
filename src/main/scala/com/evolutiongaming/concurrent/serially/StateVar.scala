@@ -57,7 +57,7 @@ object StateVar {
 
     new StateVar[S] {
 
-      def value() = s
+      def value(): S = s
 
       def apply[SS](f: S => (S, SS)): Future[SS] = {
         serially {

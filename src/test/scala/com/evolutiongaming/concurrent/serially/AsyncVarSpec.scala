@@ -3,6 +3,7 @@ package com.evolutiongaming.concurrent.serially
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.concurrent.Future
 import scala.util.Success
 
 class AsyncVarSpec extends AnyWordSpec with Matchers {
@@ -10,7 +11,7 @@ class AsyncVarSpec extends AnyWordSpec with Matchers {
   "AsyncVar" should {
 
     "apply" in new Scope {
-      val result = state { before =>
+      val result: Future[Int] = state { before =>
         val after = before + 1
         (after, before)
       }
@@ -23,19 +24,19 @@ class AsyncVarSpec extends AnyWordSpec with Matchers {
     }
 
     "update" in new Scope {
-      val result = state.update(_ + 1)
+      val result: Future[Int] = state.update(_ + 1)
       result.value shouldEqual Some(Success(1))
       state.value() shouldEqual 1
     }
 
     "updateAndGet" in new Scope {
-      val result = state.updateAndGet(_ + 1)
+      val result: Future[Int] = state.updateAndGet(_ + 1)
       result.value shouldEqual Some(Success(1))
       state.value() shouldEqual 1
     }
 
     "getAndUpdate" in new Scope {
-      val result = state.getAndUpdate(_ + 1)
+      val result: Future[Int] = state.getAndUpdate(_ + 1)
       result.value shouldEqual Some(Success(0))
       state.value() shouldEqual 1
     }
@@ -47,7 +48,7 @@ class AsyncVarSpec extends AnyWordSpec with Matchers {
     }
 
     "set" in new Scope {
-      val result = state.set(1)
+      val result: Future[Int] = state.set(1)
       result.value shouldEqual Some(Success(0))
       state.value() shouldEqual 1
     }
@@ -58,7 +59,7 @@ class AsyncVarSpec extends AnyWordSpec with Matchers {
   }
 
   private trait Scope {
-    val serially = SeriallyAsync.now
+    private val serially = SeriallyAsync.now
     val state = AsyncVar(0, serially)
   }
 }

@@ -2,7 +2,7 @@ package com.evolutiongaming.concurrent.serially
 
 import akka.actor.ActorRefFactory
 import com.evolutiongaming.concurrent.CurrentThreadExecutionContext
-import com.evolutiongaming.concurrent.FutureHelper._
+import com.evolutiongaming.concurrent.FutureHelper.*
 
 import scala.concurrent.Future
 import scala.util.{Success, Try}
@@ -31,13 +31,13 @@ object SeriallyAsync {
 
     var future = Future.unit
 
-    implicit val ec = CurrentThreadExecutionContext
+    implicit val ec: CurrentThreadExecutionContext.type = CurrentThreadExecutionContext
     val tryUnit = Success(())
     val tryToUnit = (_: Try[?]) => tryUnit
 
     new SeriallyAsync {
 
-      def async[T](f: => Future[T]) = {
+      def async[T](f: => Future[T]): Future[T] = {
         serially {
           val result = if (future.isCompleted) f else future.flatMap(_ => f)
           future = FutureOps(result).transform(tryToUnit)
@@ -45,14 +45,14 @@ object SeriallyAsync {
         }.flatten
       }
 
-      def stop() = serially.stop()
+      def stop(): Future[Unit] = serially.stop()
     }
   }
 
   def now: SeriallyAsync = new SeriallyAsync {
 
-    def async[T](f: => Future[T]) = f
+    def async[T](f: => Future[T]): Future[T] = f
 
-    def stop() = Future.unit
+    def stop(): Future[Unit] = Future.unit
   }
 }
