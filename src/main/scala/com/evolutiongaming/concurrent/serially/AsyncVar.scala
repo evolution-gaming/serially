@@ -2,7 +2,7 @@ package com.evolutiongaming.concurrent.serially
 
 import akka.actor.ActorRefFactory
 import com.evolutiongaming.concurrent.CurrentThreadExecutionContext
-import com.evolutiongaming.concurrent.FutureHelper._
+import com.evolutiongaming.concurrent.FutureHelper.*
 
 import scala.concurrent.Future
 
@@ -26,13 +26,13 @@ object AsyncVar {
 
   def apply[S](state: S, serially: SeriallyAsync): AsyncVar[S] = {
 
-    implicit val ec = CurrentThreadExecutionContext
+    implicit val ec: CurrentThreadExecutionContext.type = CurrentThreadExecutionContext
 
     @volatile var s = state
 
     new AsyncVar[S] {
 
-      def value() = s
+      def value(): S = s
 
       def async[SS](f: S => Future[(S, SS)]): Future[SS] = {
         serially.async[SS] {

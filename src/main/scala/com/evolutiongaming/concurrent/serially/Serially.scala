@@ -60,7 +60,7 @@ object Serially {
         }
       }
 
-      def stop() = {
+      def stop(): Future[Unit] = {
         running {
           if (stopped.compareAndSet(false, true)) {
             val promise = Promise[Unit]()
@@ -78,7 +78,7 @@ object Serially {
 
     def apply[T](f: => T): Future[T] = Future.fromTry(Try(f))
 
-    def stop() = Future.unit
+    def stop(): Future[Unit] = Future.unit
   }
 
   private case class Func(f: () => Unit)

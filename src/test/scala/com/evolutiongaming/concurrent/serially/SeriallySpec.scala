@@ -4,8 +4,8 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Promise, TimeoutException}
+import scala.concurrent.duration.*
+import scala.concurrent.{Await, Future, Promise, TimeoutException}
 import scala.util.control.NoStackTrace
 
 class SeriallySpec extends AnyWordSpec with ActorSpec with Matchers with ScalaFutures {
@@ -16,7 +16,7 @@ class SeriallySpec extends AnyWordSpec with ActorSpec with Matchers with ScalaFu
       var value = 0
       val promise = Promise[Int]()
       serially { value = promise.future.futureValue }
-      val future = serially { value = 2 }
+      val future: Future[Unit] = serially { value = 2 }
       intercept[TimeoutException] { Await.result(future, 100.millis) }
       promise.success(1)
       Await.result(future, timeout.duration)
@@ -24,20 +24,20 @@ class SeriallySpec extends AnyWordSpec with ActorSpec with Matchers with ScalaFu
     }
 
     "not fail on exceptions" in new Scope {
-      val future1 = serially { throw TestException }
+      val future1: Future[Nothing] = serially { throw TestException }
 
       intercept[TestException.type] { Await.result(future1, timeout.duration) }
 
-      val future2 = serially { 1 }
+      val future2: Future[Int] = serially { 1 }
       Await.result(future2, timeout.duration) shouldEqual 1
     }
 
     "fail tasks when stopped" in new Scope {
       val promise = Promise[Int]()
-      val result0 = serially { promise.future.futureValue }
-      val result1 = serially { 1 }
-      val resultStop = serially.stop()
-      val result2 = serially { 2 }
+      val result0: Future[Int] = serially { promise.future.futureValue }
+      val result1: Future[Int] = serially { 1 }
+      val resultStop: Future[Unit] = serially.stop()
+      val result2: Future[Int] = serially { 2 }
 
       promise.success(0)
 
@@ -47,7 +47,7 @@ class SeriallySpec extends AnyWordSpec with ActorSpec with Matchers with ScalaFu
 
       intercept[Serially.Stopped.type] { Await.result(result2, timeout.duration) }
 
-      val result3 = serially { 3 }
+      val result3: Future[Int] = serially { 3 }
 
       intercept[Serially.Stopped.type] { Await.result(result3, timeout.duration) }
     }
