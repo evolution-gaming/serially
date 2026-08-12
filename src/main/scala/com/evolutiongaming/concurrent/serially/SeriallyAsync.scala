@@ -33,7 +33,7 @@ object SeriallyAsync {
 
     implicit val ec = CurrentThreadExecutionContext
     val tryUnit = Success(())
-    val tryToUnit = (_: Try[_]) => tryUnit
+    val tryToUnit = (_: Try[?]) => tryUnit
 
     new SeriallyAsync {
 
