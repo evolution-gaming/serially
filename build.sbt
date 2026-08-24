@@ -1,4 +1,4 @@
-import sbtversionpolicy.Compatibility.BinaryCompatible
+import sbtversionpolicy.Compatibility
 
 name := "serially"
 
@@ -42,7 +42,13 @@ Compile / doc / scalacOptions ++= Seq("-groups", "-implicits", "-no-link-warning
 
 publishTo := Some(Resolver.evolutionReleases)
 
-versionPolicyIntention := BinaryCompatible
+versionPolicyIntention := crossSettings(
+  scalaVersion = scalaVersion.value,
+  // TODO set to BinaryCompatible after first release with Scala 3 support (v1.0.6):
+  // there is no previous Scala 3 artifact to check the compatibility against
+  if3 = Compatibility.None,
+  if2 = Compatibility.BinaryCompatible,
+)
 
 libraryDependencies ++= Seq(
   "com.evolutiongaming" %% "future-helper" % "1.0.7",
@@ -68,5 +74,5 @@ def crossSettings[T](scalaVersion: String, if3: T, if2: T): T = {
 }
 
 addCommandAlias("check", "+all scalafmtCheckRepo versionPolicyCheck Compile/doc")
-addCommandAlias("fmt", "+all scalafmtRepo")
+addCommandAlias("fmt", "scalafmtRepo")
 addCommandAlias("build", "+all compile testFull")
